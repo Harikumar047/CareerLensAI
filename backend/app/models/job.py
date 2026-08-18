@@ -25,6 +25,7 @@ class QueryInfo(BaseModel):
     max_days_old: Optional[int] = None
 
 class JobSearchResponse(BaseModel):
+    search_id: Optional[str] = Field(None, description="Unique search identifier for caching and matching")
     query: QueryInfo
     total_returned: int
     jobs: List[Job]

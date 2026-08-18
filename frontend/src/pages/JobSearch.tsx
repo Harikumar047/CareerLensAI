@@ -65,15 +65,24 @@ export const JobSearch: React.FC = () => {
     setError(null);
 
     try {
-      // Perform search analysis
-      const res = await api.searchJobs(role, location, 1);
-      setJobs(res.jobs);
-      if (res.search_id) {
-        setSearchId(res.search_id);
-        const matchRes = await api.analyzeSearch(resumeId, res.search_id);
-        setMatchSummary(matchRes);
-        setCurrentStep('matches');
+      // Perform search analysis or use current search_id
+      let currentSearchId = searchId;
+      if (!currentSearchId || jobs.length === 0) {
+        const res = await api.searchJobs(role, location, 1);
+        setJobs(res.jobs);
+        currentSearchId = res.search_id || null;
+        if (res.search_id) {
+          setSearchId(res.search_id);
+        }
       }
+
+      if (!currentSearchId) {
+        throw new Error('Unable to obtain a search ID for matching. Please try searching again.');
+      }
+
+      const matchRes = await api.analyzeSearch(resumeId, currentSearchId);
+      setMatchSummary(matchRes);
+      setCurrentStep('matches');
     } catch (err: any) {
       setError(err.message || 'Failed to analyze matching scores for these jobs.');
     } finally {

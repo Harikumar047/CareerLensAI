@@ -151,16 +151,18 @@ export const ProfileView: React.FC = () => {
                 {profile.experience.map((exp, idx) => (
                   <div key={idx} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-                      <h3 className="font-semibold text-white text-sm">
-                        {exp.role || 'Role / Position'}
-                      </h3>
-                      <span className="text-xs text-slate-400">
-                        {exp.start_date || ''} {exp.end_date ? `— ${exp.end_date}` : ''}
-                      </span>
+                      {exp.role && (
+                        <h3 className="font-semibold text-white text-sm">{exp.role}</h3>
+                      )}
+                      {(exp.start_date || exp.end_date) && (
+                        <span className="text-xs text-slate-400">
+                          {exp.start_date || ''}{exp.end_date ? ` — ${exp.end_date}` : ''}
+                        </span>
+                      )}
                     </div>
-                    <p className="text-xs font-medium text-brand-400 mb-2">
-                      {exp.company || 'Company'}
-                    </p>
+                    {exp.company && (
+                      <p className="text-xs font-medium text-brand-400 mb-2">{exp.company}</p>
+                    )}
                     {exp.description && (
                       <p className="text-xs text-slate-300 leading-relaxed mb-2">
                         {exp.description}
@@ -200,16 +202,20 @@ export const ProfileView: React.FC = () => {
                 {profile.education.map((edu, idx) => (
                   <div key={idx} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-semibold text-white text-sm">
-                        {edu.degree || 'Degree'}
-                      </h3>
+                      {edu.degree && (
+                        <h3 className="font-semibold text-white text-sm">
+                          {edu.degree}{edu.field_of_study ? ` — ${edu.field_of_study}` : ''}
+                        </h3>
+                      )}
                       {edu.graduation_year && (
                         <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300">
                           Class of {edu.graduation_year}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-400">{edu.institution || 'University / College'}</p>
+                    {edu.institution && (
+                      <p className="text-xs text-slate-400">{edu.institution}</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -231,9 +237,9 @@ export const ProfileView: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {profile.projects.map((proj, idx) => (
                   <div key={idx} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
-                    <h3 className="font-semibold text-white text-xs mb-1">
-                      {proj.name || 'Project Name'}
-                    </h3>
+                    {proj.name && (
+                      <h3 className="font-semibold text-white text-xs mb-1">{proj.name}</h3>
+                    )}
                     {proj.description && (
                       <p className="text-xs text-slate-400 mb-2 line-clamp-2">
                         {proj.description}

@@ -39,16 +39,17 @@ async def search_jobs(
         max_days_old=max_days_old
     )
 
-    response_data = JobSearchResponse(
-        query=query_info,
-        total_returned=result["total_returned"],
-        jobs=result["jobs"]
-    )
-
     # 3. Store normalized results under app/data/jobs/search_<uuid>.json
     search_id = str(uuid.uuid4())
     save_filename = f"search_{search_id}.json"
     save_path = settings.JOBS_DIR / save_filename
+
+    response_data = JobSearchResponse(
+        search_id=search_id,
+        query=query_info,
+        total_returned=result["total_returned"],
+        jobs=result["jobs"]
+    )
 
     # Build the record block to store
     storage_record = {
