@@ -16,6 +16,7 @@ import { ErrorAlert } from '../components/ErrorAlert';
 export const JobSearch: React.FC = () => {
   const {
     resumeId,
+    searchId,
     searchQuery,
     setSearchQuery,
     jobs,
